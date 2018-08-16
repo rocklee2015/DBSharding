@@ -27,16 +27,29 @@ namespace DBSharding.Test
             ShardingConnUtils.RegisConnGroup(connectionDic);
 
 
-            //测试
-            User user = new User();
-            user.Id = 3;
-            user.UserName = "alan";
 
-            UserRepertory userRepertory = new UserRepertory();
-            userRepertory.AddUser(user);
+            Enumerable.Range(1, 500).ToList().ForEach(a =>
+            {
+                //测试
+                User user = new User();
+                user.Id = a;
+                user.UserName = "name_" + a;
 
-            User user2 = userRepertory.GetUserById(3);
-            Console.WriteLine(user2.UserName);
+                UserRepertory userRepertory = new UserRepertory();
+                User user2 = userRepertory.GetUserById(a);
+                if (user2 == null)
+                {
+                    userRepertory.AddUser(user);
+                }
+                else
+                {
+                    Console.WriteLine(user2.UserName+"已存在！");
+                }
+            
+            });
+         
+
+            Console.ReadKey();
 
         }
     }
